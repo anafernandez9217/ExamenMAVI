@@ -1,0 +1,61 @@
+﻿@model cs_aspnet_mvc_crud.Models.user
+
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.Model = "Usuario";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col mx-auto">
+        <div class="p-4 p-md-5 border rounded-3 bg-light">
+            <h4>@ViewBag.Title @ViewBag.Model</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group mb-3">
+
+                <div class="control-label">Nombre de usuario</div>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                    @if (@ViewBag.UsernameVacio == true){ <h6 style="color:Red;">*El campo es obligatorio</h6>}
+                    @if (@ViewBag.NoLetter == true){ <h6 style="color:Red;">*Solo se permiten letras</h6>}
+                </div>
+
+                <div class="control-label">Email</div>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    @if (@ViewBag.EmailVacio == true){ <h6 style="color:Red;">*El campo es obligatorio</h6>}
+                    @if (@ViewBag.EmailFormato == true){ <h6 style="color:Red;">*Escribe la dirección de correo electrónico con el formato alguien@example.com</h6>}
+                    @if (@ViewBag.Duplicidad == true){<h6 style="color:Red;">*El correo ya existe registrado</h6>}
+                </div>
+
+                <div class="control-label">Password</div>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.password_hash, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                    @Html.ValidationMessageFor(model => model.password_hash, "", new { @class = "text-danger" })
+                    @if (@ViewBag.PasswordVacio == true){ <h6 style="color:Red;">*El campo es obligatorio</h6>}
+                    @if (@ViewBag.NoCorrect == true){ <h6 style="color:Red;">*No se permiten caracteres especiales</h6>}
+                    @if (@ViewBag.NumberLetterPass == true){ <h6 style="color:Red;">*Debe contener por lo menos un numero y una letra</h6>}
+                </div>
+
+                <div class="control-label">Posicion</div>
+                <div class="col-md-10">
+                    @Html.DropDownList("user_position_id", null, htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.user_position_id, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-lg btn-dark" })
+                    <input type="submit" value="Agregar" class="btn btn-lg btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

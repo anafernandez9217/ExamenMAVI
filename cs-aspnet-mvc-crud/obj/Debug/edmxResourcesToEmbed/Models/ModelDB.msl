@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBEntities">
+    <EntitySetMapping Name="Module">
+      <EntityTypeMapping TypeName="Model.module">
+        <MappingFragment StoreEntitySet="module">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="module_category_id" ColumnName="module_category_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserAction">
+      <EntityTypeMapping TypeName="Model.user_action">
+        <MappingFragment StoreEntitySet="user_action">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="module_id" ColumnName="module_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserPermission">
+      <EntityTypeMapping TypeName="Model.user_permission">
+        <MappingFragment StoreEntitySet="user_permission">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_position_id" ColumnName="user_position_id" />
+          <ScalarProperty Name="user_action_id" ColumnName="user_action_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserPosition">
+      <EntityTypeMapping TypeName="Model.user_position">
+        <MappingFragment StoreEntitySet="user_position">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user">
+      <EntityTypeMapping TypeName="Model.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="active" ColumnName="active" />
+          <ScalarProperty Name="user_position_id" ColumnName="user_position_id" />
+          <ScalarProperty Name="registration_date" ColumnName="registration_date" />
+          <ScalarProperty Name="access_failed_count" ColumnName="access_failed_count" />
+          <ScalarProperty Name="lockout_enabled" ColumnName="lockout_enabled" />
+          <ScalarProperty Name="lockout_end_date_utc" ColumnName="lockout_end_date_utc" />
+          <ScalarProperty Name="two_factor_enabled" ColumnName="two_factor_enabled" />
+          <ScalarProperty Name="security_stamp" ColumnName="security_stamp" />
+          <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+          <ScalarProperty Name="email_confirmed" ColumnName="email_confirmed" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="contacto">
+      <EntityTypeMapping TypeName="Model.contacto">
+        <MappingFragment StoreEntitySet="contacto">
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="registration_date" ColumnName="registration_date" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

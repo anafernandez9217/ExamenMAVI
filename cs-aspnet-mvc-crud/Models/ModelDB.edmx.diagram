@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d81781fe31644eb59c447bdb38a73b1b" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.module" Width="1.5" PointX="1.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_action" Width="1.5" PointX="3.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_permission" Width="1.5" PointX="6" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.user_position" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_user_action_module" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_permission_user_action" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_user_permission_user_position" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.user" Width="1.5" PointX="3" PointY="4.375" />
+        <AssociationConnector Association="Model.FK_user_user_position" />
+        <EntityTypeShape EntityType="Model.contacto" Width="1.5" PointX="5.25" PointY="5.375" />
+        <AssociationConnector Association="Model.FK_user_contacto" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

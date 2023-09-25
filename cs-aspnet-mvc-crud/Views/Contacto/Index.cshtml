@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<cs_aspnet_mvc_crud.Models.contacto>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Contactos";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">@ViewBag.Title</h1>
+
+    @using (Html.BeginForm("Index", "Contacto", FormMethod.Get))
+    {
+        <div class="input-group">
+            <input type="submit" class="btn btn-outline-secondary" value="Search" />
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Input name" })
+        </div>
+    }
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        @Html.ActionLink("Agregar", "Create", null, new { @class = "btn btn-success bi bi-plus-circle" })
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover caption-top">
+        <caption>@ViewBag.Title</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="col-3">Acciones</th>
+                <th scope="col">@Html.ActionLink("Id", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+                <th scope="col">@Html.ActionLink("Telefono", "Index", new { sortOrder = ViewBag.UserPositionNameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+                <th scope="col">@Html.ActionLink("Fecha de Registro", "Index", new { sortOrder = ViewBag.UserPositionNameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+                <th scope="col">@Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.UserActionNameSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(" ", "Details", new { id = item.id }, new { @class = "btn btn-outline-info bi bi-eye" })
+                        @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "btn btn-outline-warning bi bi-pencil" })
+                        @Html.ActionLink(" ", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger bi bi-trash" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.registration_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.user.username)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Pag @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>

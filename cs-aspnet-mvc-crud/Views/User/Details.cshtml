@@ -1,0 +1,78 @@
+﻿@model cs_aspnet_mvc_crud.Models.user
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.Model = "Usuario";
+    ViewBag.ModelRelation = "Posicion del usuario";
+}
+
+<div class="col mx-auto">
+    <div class="p-4 p-md-5 border rounded-3 bg-light">
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">@ViewBag.Title @ViewBag.Model</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-sm btn-dark bi bi-backspace" })
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion mb-3" id="accordionOne">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button text-white bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        @ViewBag.Title del @ViewBag.Model
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionOne">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-3"><b>Id</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.id)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><b>Nombre de usuario</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.username)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><b>Email</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.email)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><b>Fecha de Registro</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.registration_date)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3"><b>Estatus del Usuario</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.active)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion mb-3" id="accordionTwo">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button text-white bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        @ViewBag.ModelRelation
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionTwo">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-3"><b>Nombre</b></div>
+                                <div class="col">@Html.DisplayFor(model => model.user_position.name)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

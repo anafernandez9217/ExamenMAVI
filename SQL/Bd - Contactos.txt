@@ -1,0 +1,490 @@
+USE [master]
+GO
+/****** Object:  Database [Contactos]    Script Date: 12/09/2023 13:54:46 ******/
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'Contactos')
+BEGIN
+	CREATE DATABASE [Contactos]
+END
+GO
+USE [Contactos]
+
+GO
+/****** Object:  Table [dbo].[contacto]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[contacto](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[registration_date] [datetime] NOT NULL,
+	[Phone] [varchar](50) NOT NULL,
+	[user_id] [int] NOT NULL,
+ CONSTRAINT [PK_contacto] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[user]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[user](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [varchar](16) NOT NULL,
+	[email] [nvarchar](100) NOT NULL,
+	[email_confirmed] [bit] NULL,
+	[password_hash] [nvarchar](max) NOT NULL,
+	[security_stamp] [nvarchar](max) NULL,
+	[two_factor_enabled] [bit] NOT NULL,
+	[lockout_end_date_utc] [datetime] NULL,
+	[lockout_enabled] [bit] NOT NULL,
+	[access_failed_count] [int] NOT NULL,
+	[registration_date] [datetime] NULL,
+	[user_position_id] [int] NOT NULL,
+	[active] [bit] NULL,
+ CONSTRAINT [PK_user] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[module]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[module](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [nvarchar](100) NULL,
+	[module_category_id] [int] NOT NULL,
+ CONSTRAINT [PK_module] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[module_category]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[module_category](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [nvarchar](100) NULL,
+ CONSTRAINT [PK_module_category] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[note]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[note](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](100) NULL,
+	[created_at] [datetime] NOT NULL,
+	[updated_at] [datetime] NULL,
+ CONSTRAINT [PK_note] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[task]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[task](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](100) NULL,
+	[status] [int] NOT NULL,
+	[created_at] [datetime] NOT NULL,
+	[updated_at] [datetime] NULL,
+ CONSTRAINT [PK_task] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[task_note]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[task_note](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[task_id] [int] NOT NULL,
+	[note_id] [int] NOT NULL,
+	[user_id] [int] NOT NULL,
+ CONSTRAINT [PK_task_note] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[user_action]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[user_action](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[module_id] [int] NOT NULL,
+ CONSTRAINT [PK_user_action] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[user_permission]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[user_permission](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[user_position_id] [int] NOT NULL,
+	[user_action_id] [int] NOT NULL,
+ CONSTRAINT [PK_user_permission] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[user_position]    Script Date: 12/09/2023 13:54:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[user_position](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](100) NULL,
+ CONSTRAINT [PK_user_position] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[contacto] ON 
+GO
+INSERT [dbo].[contacto] ([id], [registration_date], [Phone], [user_id]) VALUES (3, CAST(N'2023-09-12T18:08:06.497' AS DateTime), N'3311777082', 1)
+GO
+INSERT [dbo].[contacto] ([id], [registration_date], [Phone], [user_id]) VALUES (6, CAST(N'2023-09-12T18:32:38.407' AS DateTime), N'1112223334', 2)
+GO
+INSERT [dbo].[contacto] ([id], [registration_date], [Phone], [user_id]) VALUES (7, CAST(N'2023-09-12T18:39:32.000' AS DateTime), N'1112223334', 24)
+GO
+SET IDENTITY_INSERT [dbo].[contacto] OFF
+GO
+SET IDENTITY_INSERT [dbo].[module] ON 
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (0, N'Modules Categories', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (1, N'Modules', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (2, N'Users Positions', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (3, N'Users Actions', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (4, N'Users Permissions', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (5, N'Users', NULL, 1)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (6, N'Tasks', NULL, 2)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (7, N'Notes', NULL, 2)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (8, N'Task Notes', NULL, 2)
+GO
+INSERT [dbo].[module] ([id], [name], [description], [module_category_id]) VALUES (10, N'Contacto', NULL, 1)
+GO
+SET IDENTITY_INSERT [dbo].[module] OFF
+GO
+SET IDENTITY_INSERT [dbo].[module_category] ON 
+GO
+INSERT [dbo].[module_category] ([id], [name], [description]) VALUES (0, N'Security', N'Main module of the system that manages user information and the scope of their actions.')
+GO
+INSERT [dbo].[module_category] ([id], [name], [description]) VALUES (1, N'General', N'Secondary module of the system that manages general information.')
+GO
+INSERT [dbo].[module_category] ([id], [name], [description]) VALUES (2, N'Setting', N'This system module manages the application settings.')
+GO
+INSERT [dbo].[module_category] ([id], [name], [description]) VALUES (3, N'Report', N'This system module shows the information reports.')
+GO
+SET IDENTITY_INSERT [dbo].[module_category] OFF
+GO
+SET IDENTITY_INSERT [dbo].[note] ON 
+GO
+INSERT [dbo].[note] ([id], [name], [description], [created_at], [updated_at]) VALUES (0, N'222', N'222', CAST(N'2023-09-11T18:42:29.987' AS DateTime), NULL)
+GO
+SET IDENTITY_INSERT [dbo].[note] OFF
+GO
+SET IDENTITY_INSERT [dbo].[task] ON 
+GO
+INSERT [dbo].[task] ([id], [name], [description], [status], [created_at], [updated_at]) VALUES (1, N'a', N'b', 111, CAST(N'2023-09-11T16:22:40.083' AS DateTime), NULL)
+GO
+SET IDENTITY_INSERT [dbo].[task] OFF
+GO
+SET IDENTITY_INSERT [dbo].[user] ON 
+GO
+INSERT [dbo].[user] ([id], [username], [email], [email_confirmed], [password_hash], [security_stamp], [two_factor_enabled], [lockout_end_date_utc], [lockout_enabled], [access_failed_count], [registration_date], [user_position_id], [active]) VALUES (1, N'anafernandez', N'anafernandez.9217@gmail.com', NULL, N'9B8769A4A742959A2D0298C36FB70623F2DFACDA8436237DF08D8DFD5B37374C', NULL, 0, NULL, 0, 0, CAST(N'2023-09-11T18:48:17.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[user] ([id], [username], [email], [email_confirmed], [password_hash], [security_stamp], [two_factor_enabled], [lockout_end_date_utc], [lockout_enabled], [access_failed_count], [registration_date], [user_position_id], [active]) VALUES (2, N'test', N'test@example.com', NULL, N'ECD71870D1963316A97E3AC3408C9835AD8CF0F3C1BC703527C30265534F75AE', NULL, 0, NULL, 0, 0, CAST(N'2023-09-11T23:03:26.000' AS DateTime), 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[user] OFF
+GO
+SET IDENTITY_INSERT [dbo].[user_action] ON 
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (0, N'View All Modules Categories', 1)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (1, N'View Module Category', 1)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (2, N'Create Module', 1)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (3, N'Edit Module', 1)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (4, N'Delete Module', 1)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (5, N'View All Modules', 2)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (6, N'View Module', 2)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (7, N'Create Module', 2)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (8, N'Edit Module', 2)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (9, N'Delete Module', 2)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (10, N'View All Users Positions', 3)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (11, N'View User Position', 3)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (12, N'Create User Position', 3)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (13, N'Edit User Position', 3)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (14, N'Delete User Position', 3)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (15, N'View All Users Actions', 4)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (16, N'View User Action', 4)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (17, N'Create User Action', 4)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (18, N'Edit User Action', 4)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (19, N'Delete User Action', 4)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (20, N'View All Users Permissions', 5)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (21, N'View User Permission', 5)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (22, N'Create User Permission', 5)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (23, N'Edit User Permission', 5)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (24, N'Delete User Permission', 5)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (25, N'View All Users', 6)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (26, N'View User', 6)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (27, N'Create User', 6)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (28, N'Edit User', 6)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (29, N'Delete User', 6)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (30, N'View All Tasks', 7)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (31, N'View Task', 7)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (32, N'Create Task', 7)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (33, N'Edit Task', 7)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (34, N'Delete Task', 7)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (35, N'View All Notes', 8)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (36, N'View Note', 8)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (37, N'Create Note', 8)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (38, N'Edit Note', 8)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (39, N'Delete Note', 8)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (40, N'View All Contacto', 10)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (41, N'View Contacto', 10)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (42, N'Create Contacto', 10)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (43, N'Edit Contacto', 10)
+GO
+INSERT [dbo].[user_action] ([id], [name], [module_id]) VALUES (44, N'Delete Contacto', 10)
+GO
+SET IDENTITY_INSERT [dbo].[user_action] OFF
+GO
+SET IDENTITY_INSERT [dbo].[user_permission] ON 
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (0, 1, 1)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (1, 1, 2)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (2, 1, 3)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (3, 1, 4)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (4, 1, 5)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (5, 1, 6)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (6, 1, 7)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (7, 1, 8)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (8, 1, 9)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (9, 1, 10)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (10, 1, 11)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (11, 1, 12)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (12, 1, 13)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (13, 1, 14)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (14, 1, 15)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (15, 1, 16)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (16, 1, 17)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (17, 1, 18)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (18, 1, 19)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (19, 1, 20)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (20, 1, 21)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (21, 1, 22)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (22, 1, 23)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (23, 1, 24)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (24, 1, 25)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (25, 1, 26)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (26, 1, 27)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (27, 1, 28)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (28, 1, 29)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (29, 1, 30)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (30, 1, 31)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (31, 1, 32)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (32, 1, 33)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (33, 1, 34)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (34, 1, 35)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (35, 1, 36)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (36, 1, 37)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (37, 1, 38)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (38, 1, 39)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (39, 1, 40)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (40, 1, 41)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (41, 1, 42)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (42, 1, 43)
+GO
+INSERT [dbo].[user_permission] ([id], [user_position_id], [user_action_id]) VALUES (43, 1, 44)
+GO
+SET IDENTITY_INSERT [dbo].[user_permission] OFF
+GO
+SET IDENTITY_INSERT [dbo].[user_position] ON 
+GO
+INSERT [dbo].[user_position] ([id], [name], [description]) VALUES (0, N'Otro', NULL)
+GO
+INSERT [dbo].[user_position] ([id], [name], [description]) VALUES (1, N'Administrador', NULL)
+GO
+SET IDENTITY_INSERT [dbo].[user_position] OFF
+GO
+ALTER TABLE [dbo].[user] ADD  DEFAULT ((1)) FOR [active]
+GO
+ALTER TABLE [dbo].[contacto]  WITH NOCHECK ADD  CONSTRAINT [FK_user_username] FOREIGN KEY([user_id])
+REFERENCES [dbo].[user] ([id])
+GO
+ALTER TABLE [dbo].[contacto] CHECK CONSTRAINT [FK_user_username]
+GO
+ALTER TABLE [dbo].[module]  WITH NOCHECK ADD  CONSTRAINT [FK_module_module_category] FOREIGN KEY([module_category_id])
+REFERENCES [dbo].[module_category] ([id])
+GO
+ALTER TABLE [dbo].[module] CHECK CONSTRAINT [FK_module_module_category]
+GO
+ALTER TABLE [dbo].[task_note]  WITH NOCHECK ADD  CONSTRAINT [FK_task_note_note] FOREIGN KEY([note_id])
+REFERENCES [dbo].[note] ([id])
+GO
+ALTER TABLE [dbo].[task_note] CHECK CONSTRAINT [FK_task_note_note]
+GO
+ALTER TABLE [dbo].[task_note]  WITH NOCHECK ADD  CONSTRAINT [FK_task_note_task] FOREIGN KEY([task_id])
+REFERENCES [dbo].[task] ([id])
+GO
+ALTER TABLE [dbo].[task_note] CHECK CONSTRAINT [FK_task_note_task]
+GO
+ALTER TABLE [dbo].[task_note]  WITH NOCHECK ADD  CONSTRAINT [FK_task_note_user] FOREIGN KEY([user_id])
+REFERENCES [dbo].[user] ([id])
+GO
+ALTER TABLE [dbo].[task_note] CHECK CONSTRAINT [FK_task_note_user]
+GO
+ALTER TABLE [dbo].[user]  WITH NOCHECK ADD  CONSTRAINT [FK_user_user_position] FOREIGN KEY([user_position_id])
+REFERENCES [dbo].[user_position] ([id])
+GO
+ALTER TABLE [dbo].[user] CHECK CONSTRAINT [FK_user_user_position]
+GO
+ALTER TABLE [dbo].[user_action]  WITH NOCHECK ADD  CONSTRAINT [FK_user_action_module] FOREIGN KEY([module_id])
+REFERENCES [dbo].[module] ([id])
+GO
+ALTER TABLE [dbo].[user_action] CHECK CONSTRAINT [FK_user_action_module]
+GO
+ALTER TABLE [dbo].[user_permission]  WITH NOCHECK ADD  CONSTRAINT [FK_user_permission_user_action] FOREIGN KEY([user_action_id])
+REFERENCES [dbo].[user_action] ([id])
+GO
+ALTER TABLE [dbo].[user_permission] CHECK CONSTRAINT [FK_user_permission_user_action]
+GO
+ALTER TABLE [dbo].[user_permission]  WITH NOCHECK ADD  CONSTRAINT [FK_user_permission_user_position] FOREIGN KEY([user_position_id])
+REFERENCES [dbo].[user_position] ([id])
+GO
+ALTER TABLE [dbo].[user_permission] CHECK CONSTRAINT [FK_user_permission_user_position]
+GO
+USE [master]
+GO
+ALTER DATABASE [Contactos] SET  READ_WRITE 
+GO

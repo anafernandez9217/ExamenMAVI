@@ -1,0 +1,54 @@
+﻿@model cs_aspnet_mvc_crud.Models.user_position
+
+@{
+    ViewBag.Title = "Borrar";
+    ViewBag.Model = "Usario Posicion";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col mx-auto">
+        <div class="p-4 p-md-5 border rounded-3 bg-light">
+            <div class="alert alert-danger" role="alert">
+                ¿Estas seguro de eliminar este usario posicion?
+            </div>
+
+            <div class="accordion mb-3" id="accordionOne">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button text-white bg-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            @ViewBag.Title este @ViewBag.Model
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionOne">
+                        <div class="accordion-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-3"><b>Id</b></div>
+                                    <div class="col">@Html.DisplayFor(model => model.id)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3"><b>Nombre</b></div>
+                                    <div class="col">@Html.DisplayFor(model => model.name)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3"><b>Descripcion</b></div>
+                                    <div class="col">@Html.DisplayFor(model => model.description)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-lg btn-dark" })
+                    <input type="submit" value="Borrar" class="btn btn-lg btn-danger" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="contacto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="registration_date" Type="datetime" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="module">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="100" />
+          <Property Name="module_category_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="email_confirmed" Type="bit" />
+          <Property Name="password_hash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="security_stamp" Type="nvarchar(max)" />
+          <Property Name="two_factor_enabled" Type="bit" Nullable="false" />
+          <Property Name="lockout_end_date_utc" Type="datetime" />
+          <Property Name="lockout_enabled" Type="bit" Nullable="false" />
+          <Property Name="access_failed_count" Type="int" Nullable="false" />
+          <Property Name="registration_date" Type="datetime" />
+          <Property Name="user_position_id" Type="int" Nullable="false" />
+          <Property Name="active" Type="bit" />
+        </EntityType>
+        <EntityType Name="user_action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="module_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_permission">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_position_id" Type="int" Nullable="false" />
+          <Property Name="user_action_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_user_action_module">
+          <End Role="module" Type="Self.module" Multiplicity="1" />
+          <End Role="user_action" Type="Self.user_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="module">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_action">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_contacto">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="contacto" Type="Self.contacto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contacto">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_permission_user_action">
+          <End Role="user_action" Type="Self.user_action" Multiplicity="1" />
+          <End Role="user_permission" Type="Self.user_permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_action">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_permission">
+              <PropertyRef Name="user_action_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_permission_user_position">
+          <End Role="user_position" Type="Self.user_position" Multiplicity="1" />
+          <End Role="user_permission" Type="Self.user_permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_permission">
+              <PropertyRef Name="user_position_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_user_position">
+          <End Role="user_position" Type="Self.user_position" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="user_position_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="contacto" EntityType="Self.contacto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="module" EntityType="Self.module" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_action" EntityType="Self.user_action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_permission" EntityType="Self.user_permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_position" EntityType="Self.user_position" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_user_action_module" Association="Self.FK_user_action_module">
+            <End Role="module" EntitySet="module" />
+            <End Role="user_action" EntitySet="user_action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_contacto" Association="Self.FK_user_contacto">
+            <End Role="user" EntitySet="user" />
+            <End Role="contacto" EntitySet="contacto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_permission_user_action" Association="Self.FK_user_permission_user_action">
+            <End Role="user_action" EntitySet="user_action" />
+            <End Role="user_permission" EntitySet="user_permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_permission_user_position" Association="Self.FK_user_permission_user_position">
+            <End Role="user_position" EntitySet="user_position" />
+            <End Role="user_permission" EntitySet="user_permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_user_position" Association="Self.FK_user_user_position">
+            <End Role="user_position" EntitySet="user_position" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="module">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="module_category_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user_action" Relationship="Self.FK_user_action_module" FromRole="module" ToRole="user_action" />
+        </EntityType>
+        <EntityType Name="user_action">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="module_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="module" Relationship="Self.FK_user_action_module" FromRole="user_action" ToRole="module" />
+          <NavigationProperty Name="user_permission" Relationship="Self.FK_user_permission_user_action" FromRole="user_action" ToRole="user_permission" />
+        </EntityType>
+        <EntityType Name="user_permission">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_position_id" Type="Int32" Nullable="false" />
+          <Property Name="user_action_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user_action" Relationship="Self.FK_user_permission_user_action" FromRole="user_permission" ToRole="user_action" />
+          <NavigationProperty Name="user_position" Relationship="Self.FK_user_permission_user_position" FromRole="user_permission" ToRole="user_position" />
+        </EntityType>
+        <EntityType Name="user_position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user_permission" Relationship="Self.FK_user_permission_user_position" FromRole="user_position" ToRole="user_permission" />
+          <NavigationProperty Name="user" Relationship="Model.FK_user_user_position" FromRole="user_position" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_user_action_module">
+          <End Role="module" Type="Self.module" Multiplicity="1" />
+          <End Role="user_action" Type="Self.user_action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="module">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_action">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_permission_user_action">
+          <End Role="user_action" Type="Self.user_action" Multiplicity="1" />
+          <End Role="user_permission" Type="Self.user_permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_action">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_permission">
+              <PropertyRef Name="user_action_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_permission_user_position">
+          <End Role="user_position" Type="Self.user_position" Multiplicity="1" />
+          <End Role="user_permission" Type="Self.user_permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_permission">
+              <PropertyRef Name="user_position_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Module" EntityType="Self.module" />
+          <EntitySet Name="UserAction" EntityType="Self.user_action" />
+          <EntitySet Name="UserPermission" EntityType="Self.user_permission" />
+          <EntitySet Name="UserPosition" EntityType="Self.user_position" />
+          <AssociationSet Name="FK_user_action_module" Association="Self.FK_user_action_module">
+            <End Role="module" EntitySet="Module" />
+            <End Role="user_action" EntitySet="UserAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_permission_user_action" Association="Self.FK_user_permission_user_action">
+            <End Role="user_action" EntitySet="UserAction" />
+            <End Role="user_permission" EntitySet="UserPermission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_permission_user_position" Association="Self.FK_user_permission_user_position">
+            <End Role="user_position" EntitySet="UserPosition" />
+            <End Role="user_permission" EntitySet="UserPermission" />
+          </AssociationSet>
+          <EntitySet Name="user" EntityType="Model.user" />
+          <AssociationSet Name="FK_user_user_position" Association="Model.FK_user_user_position">
+            <End Role="user_position" EntitySet="UserPosition" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <EntitySet Name="contacto" EntityType="Model.contacto" />
+          <AssociationSet Name="FK_user_contacto" Association="Model.FK_user_contacto">
+            <End Role="user" EntitySet="user" />
+            <End Role="contacto" EntitySet="contacto" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email_confirmed" Type="Boolean" />
+          <Property Name="password_hash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="security_stamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="two_factor_enabled" Type="Boolean" Nullable="false" />
+          <Property Name="lockout_end_date_utc" Type="DateTime" Precision="3" />
+          <Property Name="lockout_enabled" Type="Boolean" Nullable="false" />
+          <Property Name="access_failed_count" Type="Int32" Nullable="false" />
+          <Property Name="registration_date" Type="DateTime" Precision="3" />
+          <Property Name="user_position_id" Type="Int32" Nullable="false" />
+          <Property Name="active" Type="Boolean" />
+          <NavigationProperty Name="user_position" Relationship="Model.FK_user_user_position" FromRole="user" ToRole="user_position" />
+          <NavigationProperty Name="contacto" Relationship="Model.FK_user_contacto" FromRole="user" ToRole="contacto" />
+        </EntityType>
+        <Association Name="FK_user_user_position">
+          <End Type="Model.user_position" Role="user_position" Multiplicity="1" />
+          <End Type="Model.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="user_position_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="contacto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="registration_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Model.FK_user_contacto" FromRole="contacto" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_user_contacto">
+          <End Type="Model.user" Role="user" Multiplicity="1" />
+          <End Type="Model.contacto" Role="contacto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="contacto">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="Module">
+            <EntityTypeMapping TypeName="Model.module">
+              <MappingFragment StoreEntitySet="module">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="module_category_id" ColumnName="module_category_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAction">
+            <EntityTypeMapping TypeName="Model.user_action">
+              <MappingFragment StoreEntitySet="user_action">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermission">
+            <EntityTypeMapping TypeName="Model.user_permission">
+              <MappingFragment StoreEntitySet="user_permission">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_position_id" ColumnName="user_position_id" />
+                <ScalarProperty Name="user_action_id" ColumnName="user_action_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPosition">
+            <EntityTypeMapping TypeName="Model.user_position">
+              <MappingFragment StoreEntitySet="user_position">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="Model.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="user_position_id" ColumnName="user_position_id" />
+                <ScalarProperty Name="registration_date" ColumnName="registration_date" />
+                <ScalarProperty Name="access_failed_count" ColumnName="access_failed_count" />
+                <ScalarProperty Name="lockout_enabled" ColumnName="lockout_enabled" />
+                <ScalarProperty Name="lockout_end_date_utc" ColumnName="lockout_end_date_utc" />
+                <ScalarProperty Name="two_factor_enabled" ColumnName="two_factor_enabled" />
+                <ScalarProperty Name="security_stamp" ColumnName="security_stamp" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="email_confirmed" ColumnName="email_confirmed" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contacto">
+            <EntityTypeMapping TypeName="Model.contacto">
+              <MappingFragment StoreEntitySet="contacto">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="registration_date" ColumnName="registration_date" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

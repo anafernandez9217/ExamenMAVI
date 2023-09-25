@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My Application ASP.NET</title>
+    @Styles.Render("~/bundles/css")
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
+    @Styles.Render("~/bundles/headers/css")
+    @if (IsSectionDefined("carousel_css"))
+    {@RenderSection("carousel_css")}
+</head>
+<body>
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">                
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                    <i class="bi bi-terminal-fill" style="font-size:32px"></i>
+                    @Html.ActionLink("-", "Index", "Home", new { area = "" }, new { @class = "text-black navbar-brand" })
+                </a>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link px-2 link-secondary" })</li>
+
+                    <li class="dropdown">
+                        <button class="btn btn-notline-customed dropdown-toggle" type="button" id="dropdownMenuButtonOne" data-bs-toggle="dropdown" aria-expanded="false">
+                            General
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonOne">
+                            <li>@Html.ActionLink("Usuario", "Index", "User", null, new { @class = "dropdown-item nav-link px-2 link-dark" })</li>
+                            <li>@Html.ActionLink("Conctato", "Index", "Contacto", null, new { @class = "dropdown-item nav-link px-2 link-dark" })</li>
+                        </ul>
+                    </li>
+
+                    @if (@ViewBag.isAdmin == true)
+                    {
+                        <li class="dropdown">
+                            <button class="btn btn-notline-customed dropdown-toggle" type="button" id="dropdownMenuButtonTwo" data-bs-toggle="dropdown" aria-expanded="false">
+                                Seguridad
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonTwo">
+                                <li>@Html.ActionLink("Usuarios Posicion", "Index", "UserPosition", null, new { @class = "dropdown-item nav-link px-2 link-dark" })</li>
+                            </ul>
+                        </li>
+                    }
+
+                    @*<li>@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link px-2 link-dark" })</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link px-2 link-dark" })</li>*@
+                </ul>
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle" style="font-size:32px"></i>
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <li>@Html.ActionLink("Sign Out", "Logout", "Auth", null, new { @class = "dropdown-item" })</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="container body-content">
+
+        @RenderBody()
+
+        <hr />
+
+        <footer class="container">
+            <p class="float-end"><a href="#">Volver arriba</a></p>
+            <p>&copy; @DateTime.Now.Year Contactos.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    @*@Scripts.Render("~/bundles/js")*@
+</body>
+</html>
